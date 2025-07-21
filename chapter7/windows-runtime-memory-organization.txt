@@ -22,6 +22,8 @@ Most compilers will combine the "read-only" and "constants" sections to "the cod
 
 Code that executes without branching (or that falls straight through) executes the fastest.
 
+modern compilers also use position-independent code for security, which is the %rip register in 80x86
+
 7.1.2 The Static Variables Sections
 
 This is a static object: static int i = 10;
@@ -43,7 +45,7 @@ how many bytes to set aside for that section.
 when the OS loads the program into memory, there is enough memory for all static objects and fills the range of memory with zeros.
 
 some compilers will combine the BSS section (group of uninitializied values) with the static/read-only data section -
-and give all the storage variables a value of 0.
+and give all the storage variables a value of 0. reserve X bytes and zero them.
 
 7.1.4 The Stack Section
 
@@ -59,4 +61,18 @@ or a general purpose stack pointer register which is called a software-implement
 
 CPUs that have a hardware stack generally make it easier to manipulate data on the stack.
 
-some believe that a hardware stack make every CPU execution slower
+some believe that a hardware stack make every CPU execution slower.
+
+the stack grows downward, hence why the function call parameters get a negative offset
+
+7.1.5 The Heap Section and Dynamic Memory Allocation
+
+in C you use malloc() and free() to allocate and deallocate storage dynamically under program control - that's the heap.
+
+Java and Swift use "new" and the deallocation is automatic.
+
+"Dynamic memory allocation takes place in a section of memory known as the heap."
+
+you would normally use pointers to refer to data on the heap, but Java & Swift use pointers behind the scene.
+
+heap is made after the program finishes executing - it's not a part of the .exe file
