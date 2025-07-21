@@ -1,9 +1,9 @@
-	.file	"floating-point-precision.c"
+	.file	"arrays.c"
 	.text
 	.globl	main
 	.type	main, @function
 main:
-.LFB6:
+.LFB0:
 	.cfi_startproc
 	endbr64
 	pushq	%rbp
@@ -11,24 +11,26 @@ main:
 	.cfi_offset 6, -16
 	movq	%rsp, %rbp
 	.cfi_def_cfa_register 6
-	movl	%edi, -4(%rbp)
-	movq	%rsi, -16(%rbp)
-	movq	%rdx, -24(%rbp)
-	movss	.LC0(%rip), %xmm0
-	movss	%xmm0, i.0(%rip)
-	movl	$0, %eax
+	leaq	arrayOfInts.0(%rip), %rax
 	popq	%rbp
 	.cfi_def_cfa 7, 8
 	ret
 	.cfi_endproc
-.LFE6:
+.LFE0:
 	.size	main, .-main
-	.local	i.0
-	.comm	i.0,4,4
-	.section	.rodata
-	.align 4
-.LC0:
-	.long	1065353216
+	.data
+	.align 32
+	.type	arrayOfInts.0, @object
+	.size	arrayOfInts.0, 32
+arrayOfInts.0:
+	.long	1
+	.long	2
+	.long	3
+	.long	4
+	.long	5
+	.long	6
+	.long	7
+	.zero	4
 	.ident	"GCC: (Ubuntu 13.3.0-6ubuntu2~24.04) 13.3.0"
 	.section	.note.GNU-stack,"",@progbits
 	.section	.note.gnu.property,"a"

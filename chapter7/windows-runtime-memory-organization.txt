@@ -1,0 +1,62 @@
+7.1
+
+this is how runtime memory is organized on Windows:
+
+1. Storage (uninitializied) variabes (High addresses)
+2. Static variables
+3. Read-only data
+4. Constants (not user accessibile)
+5. Code (program instructions)
+6. Heap
+7. Stack
+8. Reserved by OS (typically 128KB) (Address = $0)
+
+the OS reserves the lowest memory addresses, you can not access (in general) these addresses.
+the OS does this to help detect NULL pointer references, if you try and access this, you might get a general protection fault
+
+7.1.1 The Code, Constant, and Read-Only Sections
+
+The code contains the machine instructions for a program.
+The compiler translates code into bytes (machine instruction opcodes) then the CPU interprets them during program execution.
+Most compilers will combine the "read-only" and "constants" sections to "the code" section because they're all read-only and write-protected.
+
+Code that executes without branching (or that falls straight through) executes the fastest.
+
+7.1.2 The Static Variables Sections
+
+This is a static object: static int i = 10;
+In C/C++ the compiler places static fields in the .exe file.
+
+when you run the program, the OS loads the portion of the .exe file that contains these static variables into memory -
+so that the values appear at the addresses associated with those variables. so when the program first runs, the variable i will have -
+the value 10 bounded it.
+
+the static section is the data section in assembly listings.
+
+7.1.3 The Storage Variables Section
+
+the storage variables section is where compilers typically store static objects that don't have an explicit initial value.
+
+Windows and Linux the compiler puts all uninitializied variables into a BSS section that simply tells the OS -
+how many bytes to set aside for that section.
+
+when the OS loads the program into memory, there is enough memory for all static objects and fills the range of memory with zeros.
+
+some compilers will combine the BSS section (group of uninitializied values) with the static/read-only data section -
+and give all the storage variables a value of 0.
+
+7.1.4 The Stack Section
+
+A data structure that expands and shrinks depending on what happens around it
+
+at runtime, the OS places all nonstatic local variables in the stack section of memory in a -
+special data structure called the activation record.
+
+depending on the CPU, you might have a special-purpose stack pointer register which is known as a hardware stack -
+or a general purpose stack pointer register which is called a software-implemented stack.
+
+80x86 uses hardware stack.
+
+CPUs that have a hardware stack generally make it easier to manipulate data on the stack.
+
+some believe that a hardware stack make every CPU execution slower
