@@ -2,7 +2,7 @@
 
 this is how runtime memory is organized on Windows:
 
-1. Storage (uninitializied) variabes (High addresses)
+1. Storage (uninitializied) variables (High addresses)
 2. Static variables
 3. Read-only data
 4. Constants (not user accessibile)
@@ -22,7 +22,16 @@ Most compilers will combine the "read-only" and "constants" sections to "the cod
 
 Code that executes without branching (or that falls straight through) executes the fastest.
 
-modern compilers also use position-independent code for security, which is the %rip register in 80x86
+modern compilers also use position-independent code for security, which is the %rip register in 80x86.
+
+so with combining the read only, constants, and code, you get this:
+
+1. Storage (uninitializied) variables (High addresses)
+2. Static variables
+3. Read-only data, Constants (not user accessibile), and Code (program instructions)
+4. Heap
+5. Stack
+6. Reserved by OS (typically 128KB) (Address = $0)
 
 7.1.2 The Static Variables Sections
 
