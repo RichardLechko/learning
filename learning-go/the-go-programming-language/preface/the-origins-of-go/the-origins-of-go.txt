@@ -1,0 +1,10 @@
+Go is similar to C.
+
+Go inherited its expression syntax, control flow statements, basic data types, call by value parameter passing, and pointers from C.
+
+Go also has C's emphasis on programs being efficient and work smoothely with the OS and machine code.
+
+Go 2nd biggest influencer is Pascal. then follows Modula-2 which inspired packages. then came Oberon / Oberon-2 / Object Oberon.
+
+Tony Hoare's 1978 paper on the foundations of concurrency created the "communicating sequential processes" (CSP) which then created a bunch of little research languages that then helped create Go.
+

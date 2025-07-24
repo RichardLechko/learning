@@ -1,0 +1,13 @@
+Chapter 1 -> Tutorial on the basic constructs of Go
+Chapter 2 -> Structural elements of Go like declarations, variables, new types, packages and files, and scope.
+Chapter 3 -> Numbers, Booleans, Strings, Constants, and Unicode
+Chapter 4 -> Composite Types, Arrays, Maps, Slices, and Structs.
+Chapter 5 -> Functions and Error Handling
+Chapter 6 -> Methods
+Chapter 7 -> Interfaces
+Chapter 8 -> Concurrency (CSP, goroutines, and channels)
+Chapter 9 -> Traditional Concurrency based on shared variables
+Chapter 10 -> Packages
+Chapter 11 -> Testing Libraries (from Go)
+Chapter 12 -> Reflection, the ability of a program to examine its own representation during execution
+Chapter 13 -> Teaches how to use the "unsafe" package to step around Go's type system

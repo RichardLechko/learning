@@ -1,0 +1,21 @@
+Chapter 1.2 Command-Line Arguments
+
+The "os" package helps interacting with the OS independet of what platform you are on.
+
+you pass arguments in a command line via the variable "Args" in the os package.
+os.Args is a slice of strings, which is a dynamically sized sequence "s" of array elements and individual elements can be accessed as "s[i]" and
+a contiguous subsequence as "s[m:n]".
+os.Args[0] = the name of the command, then os.Args[1-n] are just the arguments that were passed in.
+os.Args[1:] = all the arguments passed through
+
+it is standard to have comment(s) describing the package/source file before the package declaration
+
+uninitializied numbers are 0 and strings are ""
+
+j = i++ and j = --i is illegal.
+
+Go only has for loops. the for loops dont use paranthesis for the conditions and the opening brace must be on the same line as the for.
+
+for {
+    // this is an infinite while loop
+}
