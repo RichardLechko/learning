@@ -1,3 +1,7 @@
 Chapter 1.4 Animated GIFs
 
 this shows how to generate images and make GIFs
+
+constant variables are fixed at compile time and they can only either be a number, string, or boolean.
+
+a struct is just a group of fields
