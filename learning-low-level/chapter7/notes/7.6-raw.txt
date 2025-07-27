@@ -1,0 +1,142 @@
+7.6 Variable Alignment in memory
+
+you ca not randomly access memory, you have to do it in blocks of 4 bytes.
+
+so if you have a block of memory: 0-4 <-> 5-8 <-> 9-12, etc. you have to access the data in memory in blocks of 4.
+
+if the fields on an activation record do not add up to 4 bytes, the compiler might add padding bytes to ensure variables are aligned on a reasonable boundary.
+
+so if your order of variables are:
+
+char oneByte
+short twoBytes
+char oneByte2
+int fourBytes
+
+when we add the field "char oneByte" onto the activation record, because the next field is a short which is 2 bytes -
+the compiler will add padding after the char. so now its reall:
+
+char oneByte
+one byte padding
+short twoBytes
+
+then after "char oneByte2" we have to add 3 bytes of padding to make it equal to 4 bytes. so this is our final activation record:
+
+char oneByte
+1 Padding Byte
+short twoBytes
+char oneByte2
+1 Padding Byte
+1 Padding Byte
+1 Padding Byte
+int fourBytes
+for a total of 12 bytes 
+
+but we can optimize this and have this structure instead:
+
+char oneByte
+char oneByte2
+short twoBytes
+int fourBytes
+for a total of 8 bytes. we saved 4 bytes doing it like this.
+
+take this for example:
+
+int someFunction( void ) {
+
+    int d1; // assume ints are 32-bit objects
+    int d2;
+    int d3;
+    short w1; // assume shorts are 16-bit objects
+    short w2;
+    char b1; // assume chars are 8-bit objects
+    char b2;
+    char b3;
+}
+
+this is what the activation record would look like:
+
+Previous Stack Contents
+Parameters - +8 from EBP
+Return Address - +4 from EBP
+Old EBP Value + 0 from EBP
+int d1 - -4 from EBP
+int d2 - -8 from EBP
+int d3 - -12 from EBP
+short w1 - -14 from EBP
+short w2 - -16 from EBP
+char b1 - -17 from EBP
+char b2 - -18 from EBP
+char b3 - -19 from EBP
+
+all the integers (4 bytes) begin at addresses that are multiples of 4 (-4, -8, -12). GOOD
+all the shorts (2 bytes) begin at addresses that are multiples of 2 (-14 & -16). GOOD
+all the char (1 byte) begin at arbitrary addresses in memory.
+
+now take this function as an example:
+
+int someFunction( void ) {
+
+    char b1; // assume chars are 8-bit objects
+    int d1; // assume ints are 32-bit objects
+    short w1; // assume shorts are 16-bit objects
+    int d2;
+    short w2;
+    char b2;
+    int d3;
+    char b3;
+}
+
+you get this activation record:
+
+Previous Stack Contents
+Parameters - +8 from EBP
+Return Address - +4 from EBP
+Old EBP Value + 0 from EBP
+char b1 - -1
+int d1 - -5
+short w1 - -7
+int d2 - -11
+short w2 - -13
+char b2 - -14
+int d3 - -18
+char b3 - -19
+
+none of these addresses make sense.
+
+none of the int (4 bytes) addresses appear on multiples of 4 (-5, -11, -18)
+none of the short (2 bytes) address appear on multiples of 2 (-7, -13)
+all the 1 bytes stay the same.
+
+with padding this is what that activation record would look like:
+
+Previous Stack Contents
+Parameters - +8 from EBP
+Return Address - +4 from EBP
+Old EBP Value + 0 from EBP
+Padding 1 Byte
+Padding 1 Byte
+Padding 1 Byte
+char b1 - -4
+int d1 - -8
+Padding 1 Byte
+Padding 1 Byte
+Padding 1 Byte
+short w1 - -12
+int d2 - -16
+Padding 1 Byte
+Padding 1 Byte
+short w2 - -20
+Padding 1 Byte
+Padding 1 Byte
+Padding 1 Byte
+char b2 - -24
+int d3 - -28
+Padding 1 Byte
+Padding 1 Byte
+Padding 1 Byte
+char b3 - -32
+
+this will take up more space but perform better.
+
+7.6.1 Records and Alignment
