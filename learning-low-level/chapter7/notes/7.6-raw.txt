@@ -140,3 +140,51 @@ char b3 - -32
 this will take up more space but perform better.
 
 7.6.1 Records and Alignment
+
+depending on the CPU, there is ABI - application binary interface.
+
+ABI is how compilers determine how to organize a user defined record/struct in memory.
+
+if we have these 2 variables declared:
+
+char a
+int i
+
+then we have this stack:
+
+Previous Stack Contents
+Return Address - +4 from EBP
+Old EBP Value + 0 from EBP
+Padding 1 Byte
+Padding 1 Byte
+Padding 1 Byte
+char b1 - -4
+int i - -8
+
+ABI is what determined to add those padding bytes to align everything better.
+
+the rules of an ABI vary by CPU.
+
+the universal rule regardless of what CPU you use: when declaring variables, "group all like-sized objects together and put all the larger objects first and smaller objects last."
+
+the ultimate goal is to reach the least amount of padding as possible.
+
+many programmers try and adding padding themselves to have ultimate control:
+
+typedef struct IveAligned
+{
+    char byteValue;
+    char paddingO[3];
+    int dwordValue;
+    short wordValue;
+    char padding1[2]
+    unsigned long dwordValue2;
+}
+
+manually adding padding can be useful, but its very important to understand how your compiler handles this.
+
+its normal for a compiler to rearrange the offsets within an activation record, but not in a user defined structure/record.
+
+* the rest of the chapter is spent on ranting about how to do manual aligntment in MASM/NASM which i do not care about*
+
+the end
