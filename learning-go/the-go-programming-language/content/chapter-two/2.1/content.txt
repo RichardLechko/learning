@@ -1,0 +1,9 @@
+Chapter 2.1 Names
+
+In Go, anything being named has to begin with a letter or an underscore and may have anything else follow it.
+
+"The case of the first letter of a name determines its visibility across package boundaries." what??
+
+capital letter (like "A") -> exported and can be used outside of its own package (think Printf in the fmt package)
+
+Go programmers tend to use camel case.

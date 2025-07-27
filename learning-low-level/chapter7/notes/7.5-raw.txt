@@ -1,0 +1,92 @@
+7.5.2 Using Automatic Variables to Reduce Offset Sizes
+
+x86-64 use an 8 displacement for the base + index addressing mode.
+
+if a field is located -128 - +127 bytes of %rbp (base pointer) the compiler can encode the address in 8 bits.
+if a field is outside of this range, then it needs to do 32 bit encoding which is more expensive.
+
+whenever you enter a function, an activation record is called and a stack is created. during runtime the program allocates storage for this activation record,
+but the memory layout is computed at compile time.
+
+parameters and local variables are placed at a small offset from the base pointer so they're easy to access.
+
+the first couple instructions of a function push the current value of RBP onto the stack and then copy RSP into RBP.
+
+you should declare your local variables in this order: smallest to biggest
+
+7.5.3 Allocating Storage for Intermediate Variables
+
+"intermediate variables are local to one procedure/function but global to another."
+
+import Cocoa
+import Foundation
+
+var globalVariable = 2
+
+func procOne()
+{
+    var intermediateVariable = 2;
+
+    func procTwo()
+    {
+        let localVariable = intermediateVariable + globalVariable
+        print(localVariable)
+    }
+    procTwo()
+}
+procOne()
+
+"intermediate variable access ... is expensive."
+
+local variables typically use a smaller bit displacement for access than global variables. intermediate access requires multiple machine instructions.
+
+easiest to hardest to acess:
+
+local > global > intermediate
+
+7.5.4 Allocating Storage for Dynamic Variables and Pointers
+
+"pointers can be expensive to use but ... they can actually make your programs more efficient by reducing displacement sizes."
+
+a pointer holds the memory address of some other memory object therefore a pointer is the same size as an address on the machine.
+
+if you have this code:
+
+int *pi;
+i = *pi;
+
+you will get this 80x86 output:
+
+mov(pi, ebx)
+mov([ebx], eax)
+mov(eax, i)
+
+which is expensive. if you just had this as a local variable, it would be less expensive.
+
+a quick optimization is to load the pointer into a register. you load the pointer into EBX once, thus for pi only one instruction is used.
+
+in fact, if you load a pointer into a register like EBX once and do this instruction: mov([ebx], eax) this is actually a 0 bit displacement therefore is the most optimal.
+
+this move instruction is only 2 bytes but if pi was a local variable then it would be 3 bytes (2 bytes + 1 byte opcode)
+
+a good trick for global variables is to use pointers. since accessing global variables is expensive, having a pointer and employing 0 bit displacement on the global variable might be optimal.
+
+7.5.5 Using Records/Structures to Reduce Instruction Offset Sizes
+
+you can also put a bunch of variables into a structure and then maintain an address to that structure
+
+the only difference between accessing a user defined structure and something like an activation record is you can't refer to fields in a user struct using negative offsets
+
+"it's a good idea to put your most-often referenced field first in a structure if you're going to refer to that structure indirectly" and that is because the first field in a struct is at an offset of 0.
+
+main downside is you use up a register which can be good or bad.
+
+7.5.6 Storing Variables in Machine Registers
+
+"machine registers are always the most efficient place to store variables and parameters."
+
+there is a "fastcall calling convention" which is where the first 3 parameters are passed into EAX, EDX, and ECX
+
+in 80x64, the first 6 ordinal parameters are passed into machine registers and the rest are passed onto the stack.
+
+in C/C++ you can use the register keyword to tell the compiler to attempt to put that variable in a register. a compiler can also ignore this request...
