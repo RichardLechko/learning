@@ -49,3 +49,217 @@ this is not practical and I would never do this. dont care
 Chapter 8.1.2 Array Representation in Memory
 
 "an array is a collection of variables that you access using an index."
+
+many compilers try to have the base of the array start at an address that is a multiple of 2, 4, or 8 bytes.
+if thats not achievable, the compiler will add padding bytes.
+
+what happens if the size of each array element (char = 1 byte, int = 4 byte, etc) is less than the minimum-zised memory object that the CPU supports?
+
+1. "Allocate the smallest accessibile memory object for each element of the array"
+1a. this one is fast but wastes memory bc now you are carrying extra storage
+2. "Pack multiple array elements into a single memory cell."
+2a. this is more compact, so less storage, but is slower since you need to pack and unpack which is extra machine instructions.
+
+Chapter 8.1.3 Swift Array Implementation
+
+I do not care
+
+Chapter 8.1.4 Accessing Elements of an Array
+
+if you allocate everything in an array in contiguous memeory and the base address of the array is 0, you can calculate the address using this formula:
+
+Element_Address = Base_Address + (index * Element_Size)
+
+Element_Size is the # of bytes, so an int is 4, char is 1, etc.
+
+take into account this array: static int array[16] = {0...15}
+
+assuming 4 byte integers, you would use this calculation:
+
+Element_Address = AddressOf( array ) + (index * 4)
+
+this # 4 is the scaling value, which scales the array. in 80x86 there are 4 different scaling values for scaled index addressing mode: 1, 2, 4, or 8 bytes.
+
+but what if you have a struct that is 9 bytes? (look at "nine-byte-struct.c")
+
+Chapter 8.1.5 Padding vs Packing
+
+this just reinforces the idea that compilers will "pad each array element to a multiple of 4 bytes" then gives Pascal examples which I am not doing.
+
+the tradeoff between padding your array elements addresses or packing array elements into a memory cell is between speed and space.
+
+packing uses less space but is slower.
+padding uses more space but is faster.
+
+Chapter 8.1.6 Multidimensional Arrays
+
+"A multidimensional array is one that lets you select an element of the array using two or more independent index values."
+
+"there is no magic addressing mode that lets you easily access the elements of a multidimensional arrays".
+
+Chapter 8.1.6.1 Declaring Multidimensional Arrays
+
+In C, C++, and Java, you use this syntax:
+
+data_type array_name [dim1][dim2]...[dimn];
+
+this is a 3d array in C/C++:
+
+int threeDInts[ 4 ][ 2 ][ 8 ];
+
+the size of this array is just 4 * 2 * 8 which is 64. so this array has 64 elements with a depth of 4 by 2 rows by 8 columns:
+
+XXXX XXXX XXXX XXXX XXXX XXXX XXXX XXXX
+XXXX XXXX XXXX XXXX XXXX XXXX XXXX XXXX
+
+and this arrays consumption is Element Size * # of Elements, so we get 4 * 64 which is 256 bytes of storage.
+
+Chapter 8.1.6.2 Declaring Swift Multidimensional Arrays
+
+I do not care
+
+Chapter 8.1.6.3 Mapping Multidimensional Array Elements to Memory
+
+there are 2 rules when mapping an array element to a location in memory:
+
+1. no two array elements can occupy the same memory address
+2. each element in the array maps to the same memory location
+
+so if you have this array: int A[4][4] this is a 2d array that is 4x4:
+
+XXXX
+XXXX
+XXXX
+XXXX
+
+these are the coordinates of said 4x4 grid:
+
+[0,0] - [0,1] - [0,2] - [0,3]
+[1,0] - [1,1] - [1,2] - [1,3]
+[2,0] - [2,1] - [2,2] - [2,3]
+[3,0] - [3,1] - [3,2] - [3,3]
+
+there are 2 main ways of mapping this 2d array into memory:
+
+1. row-major ordering
+2. column-major ordering
+
+Chapter 8.1.6.4 Implementing Row-Major Ordering
+
+you first map the array elements to a memory address by moving across the rows and then down the columns.
+
+so given this grid:
+
+[0,0] - [0,1] - [0,2] - [0,3]
+[1,0] - [1,1] - [1,2] - [1,3]
+[2,0] - [2,1] - [2,2] - [2,3]
+[3,0] - [3,1] - [3,2] - [3,3]
+
+with row-major ordering this would be your memory stack:
+
+[3,3] - 15
+[3,2] - 14
+[3,1] - 13
+[3,0] - 12
+[2,3] - 11
+[2,2] - 10
+[2,1] - 9
+[2,0] - 8
+[1,3] - 7
+[1,2] - 6
+[1,1] - 5
+[1,0] - 4
+[0,3] - 3
+[0,2] - 2
+[0,1] - 1
+[0,0] - 0
+
+this is the method that C/C++ use.
+
+so in this basic grid, this is the order:
+
+XXXX
+XXXX
+XXXX
+XXXX
+
+{0,1,2,3},
+{4,5,6,7},
+{8,9,10,11},
+{12,13,14,15}
+
+this is the formula to compute the offset into a two-dimensional row-major ordered array"
+
+Element_Address = Base_Address + (colindex * row_size + rowindex) * Element_Size
+
+for 3,3 you do: 0 + (3 * 4 + 3) * 1, thus we get 0 + (15) which is 15.
+
+for a 3d array, this is the C/C++:
+
+someType array[ depth_size ][ col_size ][ row_size ];
+
+the formula for this 3d array is:
+
+Address = Base + (( depth_index * col_size + col_index) * row_size + row_index) * Element_Size
+
+for a 4d array in C/C++:
+
+type A[bounds0][bounds1][bounds2][bounds3];
+
+the formula for computing the address of an array element when accessing element A[i][j][k][m]:
+
+Address = Base + ((( i * bounds1 + j) * bounds2 + k) * bounds3 + m) * Element_Size
+
+if you have an n-th dimensional array (?) you declare it like this:
+
+dataType array[ bounds n-1 ][ bounds n-2 ] ... [bounds 0];
+
+this would be the fomrula to access any element:
+
+Address := a n-1
+
+for i := n-2 downto 0 do
+    Address := Address * b(i) + a(i)
+
+Address := Base_Address + Address * Element_Size
+
+Chapter 8.1.6.5 Implementing Column Major Ordering
+
+so given this grid:
+
+[0,0] - [0,1] - [0,2] - [0,3]
+[1,0] - [1,1] - [1,2] - [1,3]
+[2,0] - [2,1] - [2,2] - [2,3]
+[3,0] - [3,1] - [3,2] - [3,3]
+
+this is how column major ordering would sort this into sequential order:
+
+
+[3,3] - 15
+[2,3] - 14
+[1,3] - 13
+[0,3] - 12
+[3,2] - 11
+[2,2] - 10
+[1,2] - 9
+[0,2] - 8
+[3,1] - 7
+[2,1] - 6
+[1,1] - 5W
+[0,1] - 4
+[3,0] - 3
+[2,0] - 2
+[1,0] - 1
+[0,0] - 0
+
+this is how you calculate the address of an array element that does column-major ordering:
+
+Element_Address = Base_Address + (rowindex * col_size + colindex) * Element_Size
+
+for 3d arrays its:
+
+Element_Address = Base_Address + (( rowindex * col_size + colindex ) * depth_size + depthindex ) * Element_Size
+
+Chapter 8.1.6.6 Accessing Elements of a Multidimensional Array
+
+left off here.
