@@ -1,0 +1,1 @@
+This folder is dedicated to learning C, C++, and Assembly; but more importantly, learning low level programming.

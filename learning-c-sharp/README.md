@@ -1,0 +1,1 @@
+This folder is dedicated to learning C# and ASP .NET Core
