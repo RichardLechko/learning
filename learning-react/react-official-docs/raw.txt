@@ -1,0 +1,3 @@
+React apps are made out of components that are just a singular piece of user interface made up of JavaScript.
+
+React component names must always start with a capital letter
