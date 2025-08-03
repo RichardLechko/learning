@@ -8,8 +8,8 @@
       "args": [],
       "stopAtEntry": false,
       "externalConsole": false,
-      "cwd": "/mnt/c/Users/richa/OneDrive/Desktop/c-projects",
-      "program": "/mnt/c/Users/richa/OneDrive/Desktop/c-projects/build/Debug/outDebug",
+      "cwd": "/home/richard_lechko/learning-c/learning-c-sharp/c-sharp-11-and-net-7-book/chapter-1/code/Chapter01-vscode/AboutMyEnvironment",
+      "program": "/home/richard_lechko/learning-c/learning-c-sharp/c-sharp-11-and-net-7-book/chapter-1/code/Chapter01-vscode/AboutMyEnvironment/build/Debug/outDebug",
       "MIMode": "gdb",
       "miDebuggerPath": "gdb",
       "setupCommands": [
