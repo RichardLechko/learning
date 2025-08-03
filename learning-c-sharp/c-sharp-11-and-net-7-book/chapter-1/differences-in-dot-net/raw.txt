@@ -1,0 +1,43 @@
+### .NET 6/7/8, .NET Core, .NET Framework, and Xamarin are all related but are distinct in their own ways
+
+# .NET Framework
+
+its a development platform that includes a common language runtime which is what executes code
+it also has a base class library which provides built in libraries
+
+versions 4.5.2 and onwards have been directly baked into Windows OS, which means .NET framework follow the same life policy of the Windows OS
+
+.NET Framework is (mostly) Windows-only and a legacy platform, do not make apps with it.
+
+# Xamarin
+
+i dont care
+
+# .NET Core
+
+this is aimed to be like the .NET Framework but just cross platform.
+
+CLR became CoreCLR and BCL became CoreFX
+
+.NET Core moves fast, and most improvements made to .NET Core can not be made the same in .NET Framework
+
+.NET Core 3.1 introduced Blazor Server for building web components.
+
+### .NET Support
+
+LTS -> supported for 3 years after general availability OR 1 year after the next LTS is released (whichever is longer)
+Standard or Current -> supported for 18 months after general availability OR 6 months after the next Standard or LTS ships (whichever is longer)
+Preview -> public testing
+
+### Understanding intermediate language
+
+the C# compiler compiles C# code into an intermediate language and then stores it in an assembly (DLL or EXE file)
+IL is similar to Assembly and is then executed by the .NET VM which is known as the CoreCLR
+
+CoreCLR -> loads the IL code from the Assembly -> the just-in-time compiler compiles it into native CPU instructions -> then executed by the CPU
+
+### Comparing .NET Technologies
+
+Modern .NET runs on C# 8 to 11 and can be ran on virtually any OS
+.NET Framework is a legacy framework that has limited C# 8 support, no C# 9 to 11 support and is primarily Windows only
+Xamarin is for mobile and desktop apps only and is only ran on Android, iOS, and macOS
