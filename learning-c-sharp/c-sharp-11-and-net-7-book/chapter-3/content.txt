@@ -1,0 +1,644 @@
+## Operating on variables
+
+operators just apply operations to variables / literal values.
+
+var value = value1 + value2
+
+the plus sign is an operator.
+
+addition, subtraction, multiple, division, and more, are binary operators meaning they work on two operands
+
+some operators are unary operators meaning they work on a single operand:
+
+var x = 1;
+var xPlus = x++; (unary operator)
+
+then a ternary operator is an operator that works on 3 operands.
+
+### exploring unary operators
+
+this code:
+
+int a = 3;
+int b = a++;
+WriteLine($"a is {a}, b is {b}");
+
+produces:
+
+a is 4, b is 3
+
+that is because the "a++" executes after the assignment, this is a postfix operator
+so when int b = a++ is executed, b gets the value in a, and then a gets incremented by 1.
+
+then you have:
+
+int a = 3;
+int b = ++a;
+WriteLine($"a is {a}, b is {b}");
+
+which will produce:
+
+a is 4, b is 4
+
+the ++a is a prefix operator
+
+int e = 11;
+int f = 3;
+WriteLine($"e is {e}, f is {f}.");
+WriteLine($"e + f = {e + f}.");
+WriteLine($"e - f = {e - f}.");
+WriteLine($"e * f = {e * f}.");
+WriteLine($"e / f = {e / f}.");
+WriteLine($"e % f = {e % f}.");
+
+double g = 11.0;
+WriteLine($"g is {g:N1}, f is {f}.");
+WriteLine($"g / f = {g / f}.");
+
+this will print out:
+
+e is 11, f is 3
+e + f = 14
+e - f = 8
+e * f = 33
+e / f = 3
+e % f = 2
+g is 11.0, f is 3
+g / f = 3.6666666666666665
+
+## Assignment Operators
+
+there are also assignment operators such as:
+
+int p = 6;
+p += 3;
+p -= 3;
+p *= 3;
+p /= 3;
+
+## Logical Operators
+
+these operators operate off of booleans which are either true or false.
+
+bool a = true;
+bool b = false;
+
+WriteLine($"AND  | a     | b");
+WriteLine($"a    | {a & a,-5} | {a & b,-5} ");
+WriteLine($"b    | {b & a,-5} | {b & b,-5} ");
+WriteLine();
+WriteLine($"OR   | a     | b");
+WriteLine($"a    | {a | a,-5} | {a | b,-5} ");
+WriteLine($"b    | {b | a,-5} | {b | b,-5} ");
+WriteLine();
+WriteLine($"XOR  | a     | b");
+WriteLine($"a    | {a ^ a,-5} | {a ^ b,-5} ");
+WriteLine($"b    | {b ^ a,-5} | {b & b,-5} ");
+
+this will return:
+
+AND  | a     | b
+a    | True  | False 
+b    | False | False 
+
+OR   | a     | b
+a    | True  | True  
+b    | True  | False 
+
+XOR  | a     | b
+a    | False | True  
+b    | True  | False
+
+for the & logical operator both operands must be true
+for the | logical operator either or can be true
+for the ^ logical operator, either or can be true but not both
+
+then there are conditional logical operators, where you use 2 symbols:
+
+if a && b 
+
+then there are bitwise and binary shift operators:
+
+int a = 10; // 00001010
+int b = 6;  // 00000110
+
+WriteLine($"a = {a}");
+WriteLine($"b = {b}");
+WriteLine($"a & b = {a & b}");
+WriteLine($"a | b = {a | b}");
+WriteLine($"a ^ b = {a ^ b}");
+
+you get this output:
+
+a = 10
+b = 6
+a & b = 2
+a | b = 14
+a ^ b = 12
+
+a & b = 2 because:
+10 -> 00001010
+6  -> 00000110
+      00000010 -> 2
+
+a | b = 14 because:
+10 -> 00001010
+6  -> 00000110
+   -> 00001110 -> 14
+
+a ^ b = 12 because:
+10 -> 00001010
+6  -> 00000110
+   -> 00001100 -> 12
+
+there are more operators:
+
+int a = 10; // 00001010
+int b = 6;  // 00000110
+
+WriteLine($"a << 3 = {a << 3}");
+WriteLine($"a * 8 = {a * 8}");
+WriteLine($"b >> 1 = {b >> 1}");
+
+you will get this output:
+
+a << 3 = 80
+a * 8 = 80
+b >> 1 = 3
+
+a << 3 = 80 because:
+10 -> 00001010
+   -> 01010000 -> 80
+
+doing << 3 is the equivalent to * 8
+
+b >> 1 = 3 because:
+6 -> 00000110
+  -> 00000011 = 3
+
+we can verify this:
+
+int a = 10; // 00001010
+int b = 6;  // 00000110
+
+WriteLine();
+WriteLine("Outputting integers as binary:");
+WriteLine($"a      =    {ToBinaryString(a)}");
+WriteLine($"b      =    {ToBinaryString(b)}");
+WriteLine($"a & b  =    {ToBinaryString(a & b)}");
+WriteLine($"a | b  =    {ToBinaryString(a | b)}");
+WriteLine($"a ^ b  =    {ToBinaryString(a ^ b)}");
+WriteLine($"a << 3 =    {ToBinaryString(a << 3)}");
+WriteLine($"b >> 1 =    {ToBinaryString(b >> 1)}");
+
+static string ToBinaryString(int value)
+{
+    return Convert.ToString(value, toBase: 2).PadLeft(8, '0');
+}
+
+you get this output:
+
+Outputting integers as binary:
+a      =    00001010
+b      =    00000110
+a & b  =    00000010
+a | b  =    00001110
+a ^ b  =    00001100
+a << 3 =    01010000
+b >> 1 =    00000011
+
+this matches what we did earlier
+
+there are now miscellanous operators:
+
+- sizeof -> returns the size in bytes of a variable
+- nameof -> returns the short name of a variable, type, etc, as a string
+
+int age = 50;
+WriteLine($"The {nameof(age)} variable uses {sizeof(int)} bytes of memory.");
+
+you will get this output:
+
+The age variable uses 4 bytes of memory.
+
+in this statement there are 4 operators: char firstDigit = age.ToString()[0];
+
+=  -> the assignment operator
+.  -> the member access operator
+() -> the invocation operator
+[] -> the indexer access operator
+
+# selection statements
+
+in C# there are if and switch statements
+
+the book talks about if and switch statements and I already know them
+
+# understanding iteration statements
+
+the book talks about while, do-while, and for loops which I know. but then they talk about foreach which is interesting
+
+string[] names = { "Adam", "Barry", "Charlie" };
+
+foreach (string name in names)
+{
+    WriteLine($"{name} has {name.Length} characters.");
+}
+
+this will print:
+
+Adam has 4 characters.
+Barry has 5 characters.
+Charlie has 7 characters.
+
+every type should support foreach. foreach will work only if:
+
+- the type has a GetEnumerator method that returns an object
+- the returned object from GetEnumerator must have a property "Current" and a method named "MoveNext"
+- the "MoveNext" method must chang ethe value of Current and return true if they're more items to enumerate through
+
+#storing values in an array
+
+at the time of memory allocation the compiler already knows how much to allocate.
+
+string[] names;
+
+names = new string[4];
+
+names[0] = "Kate";
+names[1] = "Jack";
+names[2] = "Rebecca";
+names[3] = "Tom";
+
+for (int i = 0; i < names.Length; i++)
+{
+    WriteLine(names[i]);
+}
+
+this will return:
+
+Kate
+Jack
+Rebecca
+Tom
+
+and then this is how you write a 2d array:
+
+string[,] grid1 = new[,]
+{
+{ "Alpha", "Beta", "Gamma", "Delta" },
+{ "Anne", "Ben", "Charlie", "Doug" },
+{ "Aardvark", "Bear", "Cat", "Dog" }
+};
+
+WriteLine($"Lower bound of the first dimension is: {grid1.
+GetLowerBound(0)}");
+WriteLine($"Upper bound of the first dimension is: {grid1.
+GetUpperBound(0)}");
+WriteLine($"Lower bound of the second dimension is: {grid1.
+GetLowerBound(1)}");
+WriteLine($"Upper bound of the second dimension is: {grid1.
+GetUpperBound(1)}");
+
+for (int row = 0; row <= grid1.GetUpperBound(0); row++)
+{
+    for (int col = 0; col <= grid1.GetUpperBound(1); col++)
+    {
+        WriteLine($"Row {row}, Column {col}: {grid1[row, col]}");
+    }
+}
+
+this will return:
+
+Lower bound of the first dimension is: 0
+Upper bound of the first dimension is: 2
+Lower bound of the second dimension is: 0
+Upper bound of the second dimension is: 3
+Row 0, Column 0: Alpha
+Row 0, Column 1: Beta
+Row 0, Column 2: Gamma
+Row 0, Column 3: Delta
+Row 1, Column 0: Anne
+Row 1, Column 1: Ben
+Row 1, Column 2: Charlie
+Row 1, Column 3: Doug
+Row 2, Column 0: Aardvark
+Row 2, Column 1: Bear
+Row 2, Column 2: Cat
+Row 2, Column 3: Dog
+
+you can then define jagged arrays, so the first row can have 4 columns and then the 2nd row just has 3, etc:
+
+string[][] jagged = new[]
+{
+    new[] { "Alpha", "Beta", "Gamma" },
+    new[] { "Anne", "Ben", "Charlie", "Doug" },
+    new[] { "Aardvark", "Bear" }
+};
+
+WriteLine("Upper bound of array of arrays is: {0}", jagged.GetUpperBound(0));
+
+for (int array = 0; array <= jagged.GetUpperBound(0); array++)
+{
+    WriteLine("Upper bound of array {0} is: {1}",
+    arg0: array,
+    arg1: jagged[array].GetUpperBound(0));
+}
+
+for (int row = 0; row <= jagged.GetUpperBound(0); row++)
+{
+    for (int col = 0; col <= jagged[row].GetUpperBound(0); col++)
+    {
+        WriteLine($"Row {row}, Column {col}: {jagged[row][col]}");
+    }
+}
+
+you will get this:
+
+Upper bound of the second dimension is: 3
+Row 0, Column 0: Alpha
+Row 0, Column 1: Beta
+Row 0, Column 2: Gamma
+Row 0, Column 3: Delta
+Row 1, Column 0: Anne
+Row 1, Column 1: Ben
+Row 1, Column 2: Charlie
+Row 1, Column 3: Doug
+Row 2, Column 0: Aardvark
+Row 2, Column 1: Bear
+Row 2, Column 2: Cat
+Row 2, Column 3: Dog
+Upper bound of array of arrays is: 2
+Upper bound of array 0 is: 2
+Upper bound of array 1 is: 3
+Upper bound of array 2 is: 1
+Row 0, Column 0: Alpha
+Row 0, Column 1: Beta
+Row 0, Column 2: Gamma
+Row 1, Column 0: Anne
+Row 1, Column 1: Ben
+Row 1, Column 2: Charlie
+Row 1, Column 3: Doug
+Row 2, Column 0: Aardvark
+Row 2, Column 1: Bear
+
+then there are also list pattern matching, heres an example using switch statements:
+
+int[] sequentialNumbers = new int[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
+int[] oneTwoNumbers = new int[] { 1, 2 };
+int[] oneTwoTenNumbers = new int[] { 1, 2, 10 };
+int[] oneTwoThreeTenNumbers = new int[] { 1, 2, 3, 10 };
+int[] primeNumbers = new int[] { 2, 3, 5, 7, 11, 13, 17, 19, 23, 29 };
+int[] fibonacciNumbers = new int[] { 0, 1, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89 };
+int[] emptyNumbers = new int[] { };
+int[] threeNumbers = new int[] { 9, 7, 5 };
+int[] sixNumbers = new int[] { 9, 7, 5, 4, 2, 10 };
+
+WriteLine($"{nameof(sequentialNumbers)}: {CheckSwitch(sequentialNumbers)}");
+WriteLine($"{nameof(oneTwoNumbers)}: {CheckSwitch(oneTwoNumbers)}");
+WriteLine($"{nameof(oneTwoTenNumbers)}: {CheckSwitch(oneTwoTenNumbers)}");
+WriteLine($"{nameof(oneTwoThreeTenNumbers)}: {CheckSwitch(oneTwoThreeTenNumbers)}");
+WriteLine($"{nameof(primeNumbers)}: {CheckSwitch(primeNumbers)}");
+WriteLine($"{nameof(fibonacciNumbers)}: {CheckSwitch(fibonacciNumbers)}");
+WriteLine($"{nameof(emptyNumbers)}: {CheckSwitch(emptyNumbers)}");
+WriteLine($"{nameof(threeNumbers)}: {CheckSwitch(threeNumbers)}");
+WriteLine($"{nameof(sixNumbers)}: {CheckSwitch(sixNumbers)}");
+
+static string CheckSwitch(int[] values) => values switch
+{
+    [] => "Empty Array",
+    [1, 2, _, 10] => "Contains 1, 2, any single number, 10.",
+    [1, 2, .., 10] => "Contains 1, 2, any range including empty, 10.",
+    [1, 2] => "Contains 1 then 2",
+    [int item1, int item2, int item3] =>
+        $"Contains {item1} then {item2} then {item3}.",
+    [0, _] => "Starts with 0, then one other number.",
+    [0, ..] => "Start with 0, then any range of numbers.",
+    [2, .. int[] others] => $"Starts with 2, then {others.Length} more numbers.",
+    [..] => "Any items in any order.",
+};
+
+this will print:
+
+sequentialNumbers: Contains 1, 2, any range including empty, 10.
+oneTwoNumbers: Contains 1 then 2
+oneTwoTenNumbers: Contains 1, 2, any range including empty, 10.
+oneTwoThreeTenNumbers: Contains 1, 2, any single number, 10.
+primeNumbers: Starts with 2, then 9 more numbers.
+fibonacciNumbers: Start with 0, then any range of numbers.
+emptyNumbers: Empty Array
+threeNumbers: Contains 9 then 7 then 5.
+sixNumbers: Any items in any order.
+
+heres the array syntax:
+
+1D                        -> string[]
+2D                        -> string[,]
+3D                        -> string[,,]
+10D                       -> string[,,,,,,,,,]
+Jagged Array              -> string[][]
+Array of Arrays of Arrays -> string[][][]
+
+#Casting and converting between types
+
+this just talks about conversions which I mostly know already
+
+an int an be safely casted into a double:
+
+int a = 10;
+double b = a;
+
+no errors
+
+but you can not do this in reverse:
+
+double c = 9.8;
+int d = c; // nope
+
+you need to do an explicit conversion:
+
+int d = (int)c;
+
+theres also a more formal way to convert types, using "System.Convert"
+
+using static System.Convert;
+
+double g = 9.8;
+int h = ToInt32(g);
+
+this is the rule of rounding when using ToInt32:
+
+9.49 > 9
+9.5 > 10
+9.51 > 10
+10.49 > 10
+10.5 > 10
+10.51 > 11
+
+then you can also convert almost everything to a string in C#:
+
+int number = 12;
+WriteLine(number.ToString());
+bool boolean = true;
+WriteLine(boolean.ToString());
+DateTime now = DateTime.Now;
+WriteLine(now.ToString());
+object me = new();
+WriteLine(me.ToString());
+
+this will print:
+
+12
+True
+08/04/2025 19:55:07
+System.Object
+
+often times when you have a binary object, like a video or image, it is in bits and you do not want it to be misinterpreted, so you do Base64 Encoding to turn the object of bits into a string of safe characters:
+
+byte[] binaryObject = new byte[128];
+
+Random.Shared.NextBytes(binaryObject);
+
+WriteLine("Binary Object as bytes:");
+for (int index = 0; index < binaryObject.Length; index++)
+{
+    Write($"{binaryObject[index]:X} ");
+}
+WriteLine();
+
+string encoded = ToBase64String(binaryObject);
+WriteLine($"Binary Object as Base64: {encoded}");
+
+you will get something like this returned:
+
+Binary Object as bytes:
+19 0 1 E 4 ED 8E 62 3 27 EC B0 B1 2 32 A2 CE D2 91 6F 1B 34 D5 A7 80 47 35 AC F0 E7 6D 31 C3 CC 27 7C 9B 7 B5 64 E D7 C8 F3 EE F0 F7 50 8F 11 53 30 B3 59 84 34 66 49 AF 88 D2 7B 7D BD E1 9 7A 78 E8 6E FD CC D6 52 E8 8 8F 81 FC BF 78 A4 1E F3 7B 41 3F FE 58 BD 6B DD 46 FD DE 79 BB E 54 FE 78 7E 86 71 C9 57 B9 D9 8C 98 66 B0 1E 3B 26 2E FB 89 C0 F8 54 3D 20 45 70 59 E7 F9 
+Binary Object as Base64: GQABDgTtjmIDJ+ywsQIyos7SkW8bNNWngEc1rPDnbTHDzCd8mwe1ZA7XyPPu8PdQjxFTMLNZhDRmSa+I0nt9veEJenjobv3M1lLoCI+B/L94pB7ze0E//li9a91G/d55uw5U/nh+hnHJV7nZjJhmsB47Ji77icD4VD0gRXBZ5/k=
+
+then this is how you parse through dates:
+
+int age = int.Parse("27");
+DateTime birthday = DateTime.Parse("4 July 1980");
+WriteLine($"I was born {age} years ago.");
+WriteLine($"My birthday is {birthday}.");
+WriteLine($"My birthday is {birthday:D}");
+WriteLine($"My birthday is {birthday:d}");
+WriteLine($"My birthday is {birthday:f}");
+WriteLine($"My birthday is {birthday:F}");
+WriteLine($"My birthday is {birthday:g}");
+WriteLine($"My birthday is {birthday:G}");
+
+as you can see there are multiple date formats:
+
+I was born 27 years ago.
+My birthday is 07/04/1980 00:00:00.
+My birthday is Friday, 04 July 1980
+My birthday is 07/04/1980
+My birthday is Friday, 04 July 1980 00:00
+My birthday is Friday, 04 July 1980 00:00:00
+My birthday is 07/04/1980 00:00
+My birthday is 07/04/1980 00:00:00
+
+you can get errors when using Parse, so best practice is to use TryParse:
+
+Write("How many eggs are there? ");
+string? input = ReadLine();
+
+if (int.TryParse(input, out int count))
+{
+    WriteLine($"There are {count} eggs.");
+}
+else
+{
+    WriteLine("I could not parse the input.");
+}
+
+How many eggs are there? ddd
+I could not parse the input.
+
+How many eggs are there? 3223
+There are 3223 eggs.
+
+you should use try catch to make sure no bad entries are made:
+
+WriteLine("Before parsing");
+Write("What is your age? ");
+string? input = ReadLine();
+try
+{
+    int age = int.Parse(input);
+    WriteLine($"You are {age} years old.");
+}
+catch (OverflowException)
+{
+    WriteLine("Your age is a valid number format but it is either too big or small.");
+}
+catch (FormatException)
+{
+    WriteLine("The age you entered is not a valid number format.");
+}
+catch (Exception ex)
+{
+    WriteLine($"{ex.GetType()} says {ex.Message}");
+}
+WriteLine("After parsing");
+
+you can also filters for catching:
+
+Write("Enter an amount: ");
+string amount = ReadLine();
+if (string.IsNullOrEmpty(amount)) return;
+
+try
+{
+    decimal amountValue = decimal.Parse(amount);
+    WriteLine($"Amount formatted as currency: {amountValue:C}");
+}
+catch (FormatException) when (amount.Contains("$"))
+{
+    WriteLine("Amounts cannot use the dollar sign!");
+}
+catch (FormatException)
+{
+    WriteLine("Amounts must only contain digits!");
+}
+
+you can also check for overflows:
+
+checked
+{
+    try
+    {
+        int x = int.MaxValue - 1;
+        WriteLine($"Initial value: {x}");
+        x++;
+        WriteLine($"After incrementing: {x}");
+        x++;
+        WriteLine($"After incrementing: {x}");
+        x++;
+        WriteLine($"After incrementing: {x}");
+    }
+    catch (OverflowException)
+    {
+        WriteLine("The code overflowed but I caught the exception.");
+    }
+}
+
+this is an example of a runtime exception. we increment x++ at runtime, but we can also do compile time. if we do compile time, checked wont work:
+
+int y = int.MaxValue + 1;
+
+just by having this the compiler will say "The operation overflows at compile time in checked mode"
+
+to avoid this you can do:
+
+unchecked
+{
+    int y = int.MaxValue + 1;
+    WriteLine($"Initial value: {y}");
+    y--;
+    WriteLine($"After decrementing: {y}");
+    y--;
+    WriteLine($"After decremetning: {y}");
+}
+
