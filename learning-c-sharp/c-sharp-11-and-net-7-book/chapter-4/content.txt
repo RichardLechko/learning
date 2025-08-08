@@ -1,0 +1,345 @@
+# Chapter 4
+
+## Writing Functions
+
+I obviously know how functions work, idc.
+
+import statements at the top
+statements in the middle
+functions at the bottom
+
+instead of having a bunch of functions in one file, it's best to have a separate file for functions, then add those functions as static member of Program.
+then, once you import Program you get all those methods:
+
+code/Program.Functions.cs:
+
+partial class Program 
+{
+    static void DoSomething()
+    {
+        WriteLine("Do something!");
+    }
+}
+
+code/Program.cs:
+
+using static System.Console;
+
+WriteLine("Hello World!");
+
+DoSomething();
+
+in this example I have a "Program.Functions.cs":
+
+partial class Program
+{
+    static void TimesTable(byte number, byte size = 12)
+    {
+        WriteLine($"This is the {number} times table with {size} rows.");
+
+        for (int row = 1; row <= size; row++)
+        {
+            WriteLine($"{row} x {number} = {row * number}");
+        }
+        WriteLine();
+    }
+}
+
+then I just have this Program.cs:
+
+TimesTable(7);
+
+You get this output:
+
+This is the 7 times table with 12 rows.
+1 x 7 = 7
+2 x 7 = 14
+3 x 7 = 21
+4 x 7 = 28
+5 x 7 = 35
+6 x 7 = 42
+7 x 7 = 49
+8 x 7 = 56
+9 x 7 = 63
+10 x 7 = 70
+11 x 7 = 77
+12 x 7 = 84
+
+this is just a void function, this function has a return value:
+
+partial class Program
+{
+    static decimal CalculateTax(decimal amount, string twoLetterRegionCode)
+    {
+        decimal rate = 0.0M;
+
+        switch (twoLetterRegionCode)
+        {
+            case "CH":
+                rate = 0.08M;
+                break;
+            case "DK":
+            case "NO":
+                rate = 0.25M;
+                break;
+            case "GB":
+            case "FR":
+                rate = 0.2M;
+                break;
+            case "HU":
+                rate = 0.27M;
+                break;
+            case "AK":
+            case "OR":
+            case "MT":
+                rate = 0.0M;
+                break;
+            case "ND":
+            case "WI":
+            case "ME":
+            case "VA":
+                rate = 0.05M;
+                break;
+            case "CA":
+                rate = 0.0825M;
+                break;
+            default:
+                rate = 0.06M;
+                break;
+        }
+        return amount * rate;
+    }
+}
+
+then this is my Program.cs:
+
+decimal taxToPay = CalculateTax(
+    amount: 149,
+    twoLetterRegionCode: "FR"
+);
+WriteLine($"You must pay {taxToPay} in tax.");
+
+and you get this output: "You must pay 29.8 in tax."
+
+this code then shows how to throw errors when needed:
+
+partial class Program
+{
+    static int Factorial(int number)
+    {
+        if (number < 0)
+        {
+            throw new ArgumentException(message:
+            $"The factorial function is defined for non-negative integers only. Input: {number}",
+            paramName: nameof(number));
+        }
+        else if (number == 0)
+        {
+            return 1;
+        }
+        else
+        {
+            checked
+            {
+                return number * Factorial(number - 1);    
+            }
+            
+        }
+    }
+
+    static void RunFactorial()
+    {
+        for (int i = -2; i <= 55; i++)
+        {
+            try
+            {
+                WriteLine($"{i}! = {Factorial(i):N0}");
+            }
+            catch (OverflowException)
+            {
+                WriteLine($"{i}! is too big for a 32-bit integer.");
+            }
+            catch (Exception ex)
+            {
+                WriteLine($"{i}! throws {ex.GetType}: {ex.Message}");
+            }
+            
+        }
+    }
+}
+
+you get this output:
+
+-2! throws System.Func`1[System.Type]: The factorial function is defined for non-negative integers only. Input: -2 (Parameter 'number')
+-1! throws System.Func`1[System.Type]: The factorial function is defined for non-negative integers only. Input: -1 (Parameter 'number')
+0! = 1
+1! = 1
+2! = 2
+3! = 6
+4! = 24
+5! = 120
+6! = 720
+7! = 5,040
+8! = 40,320
+9! = 362,880
+10! = 3,628,800
+11! = 39,916,800
+12! = 479,001,600
+13! is too big for a 32-bit integer.
+14! is too big for a 32-bit integer.
+15! is too big for a 32-bit integer.
+16! is too big for a 32-bit integer.
+17! is too big for a 32-bit integer.
+18! is too big for a 32-bit integer.
+19! is too big for a 32-bit integer.
+20! is too big for a 32-bit integer.
+21! is too big for a 32-bit integer.
+22! is too big for a 32-bit integer.
+23! is too big for a 32-bit integer.
+24! is too big for a 32-bit integer.
+25! is too big for a 32-bit integer.
+26! is too big for a 32-bit integer.
+27! is too big for a 32-bit integer.
+28! is too big for a 32-bit integer.
+29! is too big for a 32-bit integer.
+30! is too big for a 32-bit integer.
+31! is too big for a 32-bit integer.
+32! is too big for a 32-bit integer.
+33! is too big for a 32-bit integer.
+34! is too big for a 32-bit integer.
+35! is too big for a 32-bit integer.
+36! is too big for a 32-bit integer.
+37! is too big for a 32-bit integer.
+38! is too big for a 32-bit integer.
+39! is too big for a 32-bit integer.
+40! is too big for a 32-bit integer.
+41! is too big for a 32-bit integer.
+42! is too big for a 32-bit integer.
+43! is too big for a 32-bit integer.
+44! is too big for a 32-bit integer.
+45! is too big for a 32-bit integer.
+46! is too big for a 32-bit integer.
+47! is too big for a 32-bit integer.
+48! is too big for a 32-bit integer.
+49! is too big for a 32-bit integer.
+50! is too big for a 32-bit integer.
+51! is too big for a 32-bit integer.
+52! is too big for a 32-bit integer.
+53! is too big for a 32-bit integer.
+54! is too big for a 32-bit integer.
+55! is too big for a 32-bit integer.
+
+partial class Program
+{
+    static string CardinalToOrdinal(int number)
+    {
+        int lastTwoDigits = number % 100;
+
+        switch (lastTwoDigits)
+        {
+            case 11:
+            case 12:
+            case 13:
+                return $"{number:N0}th";
+            default:
+                int lastDigit = number % 10;
+
+                string suffix = lastDigit switch
+                {
+                    1 => "st",
+                    2 => "nd",
+                    3 => "rd",
+                    _ => "th"
+                };
+
+                return $"{number:N0}{suffix}";
+        }
+    }
+
+    static void RunCardinalToOrdinal()
+    {
+        for (int number = 1; number <= 150; number++)
+        {
+            WriteLine($"{CardinalToOrdinal(number)}");
+        }
+        WriteLine();
+    }
+
+    static int FibImperative(int term)
+    {
+        if (term == 1)
+        {
+            return 0;
+        }
+        else if (term == 2)
+        {
+            return 1;
+        }
+        else
+        {
+            return FibImperative(term - 1) + FibImperative(term - 2);
+        }
+    }
+
+    static void RunImperativeFib()
+    {
+        for (int i = 1; i <= 30; i++)
+        {
+            WriteLine("The {0} term of Fibonnaci sequence is {1:N0}",
+            arg0: CardinalToOrdinal(i),
+            arg1: FibImperative(term: i));
+        }
+    }
+
+    static int FibFunctional(int term) =>
+        term switch
+        {
+            1 => 0,
+            2 => 1,
+            _ => FibFunctional(term - 1) + FibFunctional(term - 2)
+        };
+
+    static void RunFibFunctional()
+    {
+        for (int i = 1; i <= 30; i++)
+        {
+            WriteLine("The {0} term of the Fibonacci sequence is {1:N0}",
+            arg0: CardinalToOrdinal(i),
+            arg1: FibFunctional(term: i));
+        }
+    }
+}
+
+then we learnt how to write Declarative and Imperative code.
+
+then the book talks about debugging which I do not care.
+
+then the book talked about hot reloading during development which I do not care about either
+
+then the book talked about logging during development. this is super obvious, you just put down WriteLine(); for debugging to know whats happening during runtime.
+
+then trace listeners which idc
+
+then it talks about reviewing project packages which i already know how
+
+### Unit Testing
+
+In general these are the types of testing:
+
+Unit -> testing a method or function
+Integration -> how do lots of smaller units interact w/ each other
+System -> tests how does the environment on your system work
+Performance -> how fast and efficient is your code
+Load -> how many requests can your software handle
+User Acceptance -> do the users approve
+
+if you want to create Unit Tests, create a "dotnet new xunit -n [project name]"
+then cd into the folder, not the xunit but wherever you have your application, and add the unit test path to the project solution:
+dotnet sln add ../CalculatorLibUnitTests/CalculatorLibUnitTests.csproj as an example
+
+you should have something like this in your csproj unit tests:
+
+<ItemGroup>
+    <ProjectReference Include="..\CalculatorLib\CalculatorLib.csproj" />
+</ItemGroup>
+
