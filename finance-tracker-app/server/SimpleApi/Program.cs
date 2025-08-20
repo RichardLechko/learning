@@ -43,9 +43,28 @@ app.MapGet("/hello/{name}", (string name) => new
     timestamp = DateTime.Now
 });
 
+app.MapPost("/hello/testingEndpoint", (FormData formData) => new
+{
+    messgae = "Form submitted successfully!",
+    receivedData = formData
+});
+app.MapGet("/hello/testingEndpoint", () => new
+{
+    message = $"Hello!",
+    timestamp = DateTime.Now
+});
+
+
 app.Run();
 
 record WeatherForecast(DateOnly Date, int TemperatureC, string? Summary)
 {
     public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
 }
+record FormData(
+    string FirstName,
+    string LastName,
+    string Email,
+    string Subject,
+    string TextArea
+);
