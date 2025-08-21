@@ -57,7 +57,7 @@ export default function Resources() {
 
   }
 
-  const inputElement = "bg-blue-300 px-2 py-4 flex-1 rounded-md text-black placeholder-black hover:not-focus:bg-blue-400";
+  const inputElement = "bg-blue-300 px-2 py-4 flex-1 rounded-md text-black placeholder-black hover:not-focus:bg-blue-400 outline-2 hover:bg-blue-500";
 
   return (
     <div>
