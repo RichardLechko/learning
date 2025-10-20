@@ -1,0 +1,11 @@
+Exercise 3.10: Write a non-recursive version of comma, using bytes.Buffer instead of string concatenation.
+
+Original Function:
+
+func comma(s string) string {
+	n := len(s)
+	if n <= 3 {
+		return s
+	}
+	return comma(s[:n-3]) + "," + s[n-3:]
+}
