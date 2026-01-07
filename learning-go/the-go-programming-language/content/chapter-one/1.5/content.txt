@@ -1,4 +1,0 @@
-Chapter 1.5 Fetching a URL
-
-this talks about how to use the "net" package for processing URLs
-
