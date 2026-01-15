@@ -3,13 +3,13 @@ package main
 
 import (
 	"fmt"
+	"io/ioutil"
 	"net/http"
 	"os"
-	"io/ioutil"
 )
 
 func main() {
-	
+
 	for _, url := range os.Args[1:] {
 		resp, err := http.Get(url)
 
@@ -28,3 +28,4 @@ func main() {
 		fmt.Printf("%s", b)
 	}
 }
+

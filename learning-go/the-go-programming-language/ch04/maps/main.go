@@ -1,7 +1,9 @@
 package main
 
 import (
+	"bufio"
 	"fmt"
+	"os"
 	"sort"
 )
 
@@ -48,7 +50,8 @@ func main() {
 	}
 	fmt.Println("\n\n\n")
 
-	var names []string
+	/* 	var names []string */
+	names := make([]string, 0, len(ages))
 	for name := range ages {
 		names = append(names, name)
 	}
@@ -57,4 +60,40 @@ func main() {
 		fmt.Printf("%s\t%d\n", name, ages[name])
 	}
 
+	var ages2 map[string]int
+	fmt.Println(ages2 == nil)
+	fmt.Println(len(ages2) == 0)
+
+	/* ages2["carol"] = 21 */
+
+	if _, ok := ages["bob"]; !ok {
+		fmt.Println("Key does not exist")
+	}
+
+	seen := make(map[string]bool) // a set of strings
+	input := bufio.NewScanner(os.Stdin)
+	for input.Scan() {
+		line := input.Text()
+		if !seen[line] {
+			seen[line] = true
+			fmt.Println(line)
+		}
+	}
+	if err := input.Err(); err != nil {
+		fmt.Fprintf(os.Stderr, "dedup: %v\n", err)
+		os.Exit(1)
+	}
+}
+
+func equal(x, y map[string]int) bool {
+	if len(x) != len(y) {
+		return false
+	}
+
+	for k, xv := range x {
+		if yv, ok := y[k]; !ok || yv != xv {
+			return false
+		}
+	}
+	return true
 }
