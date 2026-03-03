@@ -12,7 +12,7 @@ type Point struct {
 type Path []Point
 
 type ColoredPoint struct {
-	Point
+	*Point
 	Color color.RGBA
 }
 

@@ -16,15 +16,15 @@ func main() {
 	red := color.RGBA{255, 0, 0, 255}
 	blue := color.RGBA{0, 0, 255, 255}
 	var p = coloredpoint.ColoredPoint{
-		Point: coloredpoint.Point{X: 1, Y: 1},
+		Point: &coloredpoint.Point{X: 1, Y: 1},
 		Color: red,
 	}
 	var q = coloredpoint.ColoredPoint{
-		Point: coloredpoint.Point{X: 5, Y: 4},
+		Point: &coloredpoint.Point{X: 5, Y: 4},
 		Color: blue,
 	}
-	fmt.Println(p.Distance(q.Point))
+	fmt.Println(p.Distance(*q.Point))
 	p.ScaleBy(2)
 	q.ScaleBy(2)
-	fmt.Println(p.Distance(q.Point))
+	fmt.Println(p.Distance(*q.Point))
 }
